@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generator calculator</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="generator_calculator.js"></script>
+    <script src="variants.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div id="upgrade_percents" class="main__upgradePercents">
+        <div class="upgradePercent">
+          <label for="base_output">Base output:</label>
+          <input class="upgradePercent__input" type="text" id="base_output" />
+          <span>NE</span>
+          <span></span>
+        </div>
+
+        <div class="upgradePercent">
+          <label for="base_upgrade_percent">Base upgrade percent:</label>
+          <input
+            class="upgradePercent__input"
+            type="text"
+            id="base_upgrade_percent"
+          />
+          <span>%</span>
+          <span></span>
+        </div>
+      </div>
+
+      <button onclick="addUpgradePercentDiv()">Add</button>
+      <button onclick="calculate()">Calculate</button>
+
+      <pre id="variants" class="main__variants"></pre>
+    </div>
+
+    <template id="upgrade_percent_template">
+      <div class="upgradePercent">
+        <label>External upgrade percent:</label>
+        <input class="upgradePercent__input" type="text" />
+        <span>%</span>
+        <button>Remove</button>
+      </div>
+    </template>
+
+    <script src="index.js"></script>
+  </body>
+</html>
