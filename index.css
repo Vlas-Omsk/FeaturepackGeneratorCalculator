@@ -3,12 +3,12 @@
   flex-direction: column;
   gap: 5px;
   margin: 0 auto;
-  max-width: 400px;
+  max-width: 450px;
 }
 
 .main__upgradePercents {
   display: grid;
-  grid-template-columns: auto 1fr auto 80px;
+  grid-template-columns: 220px 1fr auto 80px;
   gap: 5px;
 }
 

@@ -13,7 +13,7 @@ let upgradePercentElements = [];
 
 let counter = 0;
 
-function addUpgradePercentDiv() {
+function addUpgradePercentElement() {
   const template = upgradePercentTemplate.content.cloneNode(true);
   const upgradePercentElement = template.firstElementChild;
   const labelElement = template.querySelector("label");
@@ -26,7 +26,7 @@ function addUpgradePercentDiv() {
   inputElement.setAttribute("id", "percent" + id);
 
   buttonElement.addEventListener("click", () =>
-    removePercentDiv(upgradePercentElement)
+    removeUpgradePercentElement(upgradePercentElement)
   );
 
   upgradePercentElements.push(upgradePercentElement);
@@ -34,7 +34,7 @@ function addUpgradePercentDiv() {
   upgradePercentsElement.appendChild(upgradePercentElement);
 }
 
-function removePercentDiv(upgradePercentElement) {
+function removeUpgradePercentElement(upgradePercentElement) {
   upgradePercentElements = upgradePercentElements.filter(
     (x) => x != upgradePercentElement
   );
