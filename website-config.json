@@ -1,7 +1,7 @@
 {
     "show": true,
     "home_url": "https://vlas-omsk.github.io/FeaturepackGeneratorCalculator",
-	"title": "$default",
+    "title": "$default",
     "content_html": "$default",
     "image_url": "$default"
 }
