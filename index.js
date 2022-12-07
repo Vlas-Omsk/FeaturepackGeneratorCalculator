@@ -4,6 +4,7 @@ const baseUpgradePercentElement = document.getElementById(
   "base_upgrade_percent"
 );
 const variantsElement = document.getElementById("variants");
+const allVariantsElement = document.getElementById("all_variants");
 
 const upgradePercentTemplate = document.getElementById(
   "upgrade_percent_template"
@@ -18,15 +19,19 @@ function addUpgradePercentElement() {
   const upgradePercentElement = template.firstElementChild;
   const labelElement = template.querySelector("label");
   const inputElement = template.querySelector("input");
-  const buttonElement = template.querySelector("button");
+  const removeElement = template.querySelector("button[data-id=remove]");
+  const upElement = template.querySelector("button[data-id=up]");
 
   const id = ++counter;
 
   labelElement.setAttribute("for", "percent" + id);
   inputElement.setAttribute("id", "percent" + id);
 
-  buttonElement.addEventListener("click", () =>
+  removeElement.addEventListener("click", () =>
     removeUpgradePercentElement(upgradePercentElement)
+  );
+  upElement.addEventListener("click", () =>
+    upUpgradePercentElement(upgradePercentElement)
   );
 
   upgradePercentElements.push(upgradePercentElement);
@@ -39,6 +44,19 @@ function removeUpgradePercentElement(upgradePercentElement) {
     (x) => x != upgradePercentElement
   );
   upgradePercentsElement.removeChild(upgradePercentElement);
+}
+
+function upUpgradePercentElement(upgradePercentElement) {
+  const index = upgradePercentElements.indexOf(upgradePercentElement);
+
+  if (index == 0) return;
+
+  const upUpgradePercentElement = upgradePercentElements[index - 1];
+
+  const input = upgradePercentElement.querySelector("input");
+  const upInput = upUpgradePercentElement.querySelector("input");
+
+  [input.value, upInput.value] = [upInput.value, input.value];
 }
 
 function tryReadInputs() {
@@ -73,14 +91,14 @@ function tryReadInputs() {
         element: input,
       };
 
-    upgradePercents.push(upgradePercent / 100);
+    upgradePercents.push(upgradePercent);
   }
 
   return {
     success: true,
     result: {
       baseOutput: baseOutput,
-      baseUpgradePercent: baseUpgradePercent / 100,
+      baseUpgradePercent: baseUpgradePercent,
       upgradePercents: upgradePercents,
     },
   };
@@ -103,18 +121,19 @@ function calculate() {
     return;
   }
 
-  const variants = createVariants(readInputsResult.result.upgradePercents);
-
   let maxOutput = 0,
     maxVariant;
 
   const computedVariants = [];
+  let variants = [readInputsResult.result.upgradePercents.map((x) => x / 100)];
+
+  if (allVariantsElement.checked) variants = createVariants(variants[0]);
 
   for (let variant of variants) {
     const output =
       readInputsResult.result.baseOutput *
       calculatePercent(
-        readInputsResult.result.baseUpgradePercent,
+        readInputsResult.result.baseUpgradePercent / 100,
         calculatePercentOfUpgradePercents(variant)
       );
 
@@ -134,9 +153,9 @@ function calculate() {
   for (let computedVariant of computedVariants) {
     if (maxVariant == computedVariant.variant) message += "<strong>";
 
-    message += `[<br />  ${(
-      readInputsResult.result.baseUpgradePercent * 100
-    ).toFixed(2)}%,<br />`;
+    message += `[<br />  ${readInputsResult.result.baseUpgradePercent.toFixed(
+      2
+    )}%,<br />`;
 
     for (let i = 0; i < computedVariant.variant.length; i++) {
       const item = computedVariant.variant[i];
@@ -154,4 +173,25 @@ function calculate() {
   }
 
   variantsElement.innerHTML = message;
+}
+
+function sort() {
+  const readInputsResult = tryReadInputs();
+
+  if (readInputsResult.success == false) {
+    readInputsResult.element.classList.add("invalid");
+    return;
+  }
+
+  const upgradePercents = readInputsResult.result.upgradePercents.sort(
+    (a, b) => a < b
+  );
+
+  for (let i = 0; i < upgradePercents.length; i++) {
+    const upgradePercentElement = upgradePercentElements[i];
+    const input = upgradePercentElement.querySelector("input");
+    const upgradePercent = upgradePercents[i];
+
+    input.value = upgradePercent;
+  }
 }

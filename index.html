@@ -11,11 +11,12 @@
   </head>
   <body>
     <div class="main">
-      <div id="upgrade_percents" class="main__upgradePercents">
+      <div class="main__upgradePercents" id="upgrade_percents">
         <div class="upgradePercent">
           <label for="base_output">Base output:</label>
           <input class="upgradePercent__input" type="text" id="base_output" />
           <span>NE</span>
+          <span></span>
           <span></span>
         </div>
 
@@ -28,13 +29,18 @@
           />
           <span>%</span>
           <span></span>
+          <span></span>
         </div>
       </div>
 
       <button onclick="addUpgradePercentElement()">Add</button>
-      <button onclick="calculate()">Calculate</button>
+      <button onclick="sort()">Sort</button>
+      <div class="main__calculateButtons">
+        <button onclick="calculate()">Calculate</button>
+        <label>All variants: <input type="checkbox" id="all_variants" /></label>
+      </div>
 
-      <pre id="variants" class="main__variants"></pre>
+      <pre class="main__variants" id="variants"></pre>
     </div>
 
     <template id="upgrade_percent_template">
@@ -42,7 +48,8 @@
         <label>External upgrade percent:</label>
         <input class="upgradePercent__input" type="text" />
         <span>%</span>
-        <button>Remove</button>
+        <button data-id="remove">Remove</button>
+        <button data-id="up">Up</button>
       </div>
     </template>
 
